@@ -30,7 +30,7 @@
             <label>Correo</label>
             <input type="text" name="Correo" required>
             <br>
-            <label>Contraseña</label>
+            <label>Contrasena</label>
             <input type="password" name="contrasena" required>
             <br>
             <button type="submit" class="btn btn-success">Iniciar sesion</button>
