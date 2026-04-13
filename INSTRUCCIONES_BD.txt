@@ -1,0 +1,6 @@
+1) Importa playcash_db.sql en phpMyAdmin o ejecútalo en MySQL.
+2) En conexion.php ya quedó configurado para localhost, base playcash_db, usuario root y contraseña vacía.
+3) Si tu MySQL usa otra contraseña, cambia DB_PASS en conexion.php o usa variables de entorno.
+4) Usuario administrador inicial:
+   Correo: admin@playcash.local
+   Contraseña: Admin1234

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ .  '/Observador.php';
+require_once __DIR__ . '/observador.php';
 
 class Sujeto {
     private $observadores = [];

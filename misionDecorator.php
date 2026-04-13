@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/Mision.php';
+require_once __DIR__ . '/mision.php';
 require_once __DIR__ . '/conexion.php';
 
 class MisionDecorator {

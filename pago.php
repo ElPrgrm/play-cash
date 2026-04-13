@@ -1,28 +1,40 @@
 <?php
-require_once __DIR__ . '/MisionFactory.php';
+require_once __DIR__ . '/helpers.php';
+require_login();
+require_once __DIR__ . '/misionFactory.php';
 
-// Validar ID
-if (!isset($_GET['id_mision'])) {
-    die("No se recibió el ID de misión.");
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'confirmar_pago') {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
+        set_flash_message('danger', 'La sesión del formulario expiró.');
+        redirect('pantalla principal.php');
+    }
+
+    $id = filter_var($_POST['id_mision'] ?? null, FILTER_VALIDATE_INT);
+    if (!$id) {
+        set_flash_message('danger', 'Misión inválida.');
+        redirect('pantalla principal.php');
+    }
+
+    MisionFactory::cobrarMision($id);
+    set_flash_message('success', 'Pago registrado correctamente.');
+    redirect('historial.php');
 }
 
-$id = $_GET['id_mision'];
+$id = filter_var($_POST['id_mision'] ?? $_GET['id_mision'] ?? null, FILTER_VALIDATE_INT);
+if (!$id) {
+    set_flash_message('danger', 'No se recibió el ID de misión.');
+    redirect('pantalla principal.php');
+}
 
-// 🔥 Marcar como COBRADA en la BD
-MisionFactory::cobrarMision($id);
-
-// Obtener datos desde la BD
 $mision = MisionFactory::obtenerMisionPorId($id);
-
 if (!$mision) {
-    die("Misión no encontrada.");
+    set_flash_message('danger', 'Misión no encontrada.');
+    redirect('pantalla principal.php');
 }
 
 $nombre = $mision['nombreMision'];
 $recompensa = $mision['recompensa'];
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -30,38 +42,29 @@ $recompensa = $mision['recompensa'];
 <title>Pago de Misión</title>
 <link rel="stylesheet" href="pago.css">
 </head>
-
 <body>
-
 <div class="checkout-box">
-
     <img class="card-icon" src="https://cdn-icons-png.flaticon.com/512/217/217425.png" alt="Card">
-
     <h2><?= htmlspecialchars($nombre) ?></h2>
-
-    <p class="price">$<?= number_format($recompensa, 2) ?> MXN</p>
-
-    <div class="input">
-        <label>Número de tarjeta</label>
-        <input type="text" placeholder="4242 4242 4242 4242">
-    </div>
-
-    <div class="input">
-        <label>Fecha de expiración</label>
-        <input type="text" placeholder="MM / YY">
-    </div>
-
-    <div class="input">
-        <label>CVC</label>
-        <input type="text" placeholder="123">
-    </div>
-
-    <button class="btn" onclick="window.location.href='pantalla principal.php'">
-    Pagar Ahora
-</button>
-
-
+    <p class="price">$<?= number_format((float) $recompensa, 2) ?> MXN</p>
+    <form action="pago.php" method="post">
+        <?= csrf_input() ?>
+        <input type="hidden" name="accion" value="confirmar_pago">
+        <input type="hidden" name="id_mision" value="<?= (int) $id ?>">
+        <div class="input">
+            <label>Número de tarjeta</label>
+            <input type="text" placeholder="4242 4242 4242 4242" maxlength="19" required>
+        </div>
+        <div class="input">
+            <label>Fecha de expiración</label>
+            <input type="text" placeholder="MM / YY" maxlength="7" required>
+        </div>
+        <div class="input">
+            <label>CVC</label>
+            <input type="text" placeholder="123" maxlength="4" required>
+        </div>
+        <button class="btn" type="submit">Pagar Ahora</button>
+    </form>
 </div>
-
 </body>
 </html>

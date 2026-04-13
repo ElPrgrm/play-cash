@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ .  '/UsuarioFactory.php';
-require_once __DIR__ .  '/MisionFactory.php';
+require_once __DIR__ . '/usuarioFactory.php';
+require_once __DIR__ . '/misionFactory.php';
 
 class SistemaFacade {
 
