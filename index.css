@@ -1,0 +1,65 @@
+body{
+
+    background-color: aqua;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    
+}
+
+
+label{
+
+    margin-bottom: 20px;
+
+}
+
+input{
+
+    margin-bottom: 20px;
+    height: 40px;
+    width: 300px;
+    border-radius: 10px;
+    border-color: black;
+}
+
+h1{
+    margin-top: 20px;
+}
+
+button{
+    margin-left: 34px;
+    margin-top: 20px;
+}
+
+.C_Inicio_sesion{
+
+display: flex;
+  justify-content: center; /* Horizontal */
+  align-items: center;     /* Vertical */
+  height: 100vh;           /* Ocupa toda la pantalla */
+}
+
+
+.CA_inicio_sesion{
+
+background: rgb(23, 62, 6);
+  padding: 20px;
+  color: white;
+}
+
+.CRegistro{
+
+display: flex;
+  justify-content: center; /* Horizontal */
+  align-items: center;     /* Vertical */
+  height: 105vh;           /* Ocupa toda la pantalla */
+}
+
+
+.CA_Registro{
+
+background: rgb(23, 62, 6);
+  padding: 22px;
+
+  color: white;
+}
